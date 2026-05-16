@@ -1,0 +1,34 @@
+rules:
+  - id: python-sql-injection-fstring-assign
+    pattern: |
+      $QUERY = f"...{...}..."
+      ...
+      $CURSOR.execute($QUERY)
+    message: |
+      Обнаружена SQL-инъекция
+    languages: [python]
+    severity: ERROR
+
+  - id: python-sql-injection-fstring-direct
+    pattern: |
+      $CURSOR.execute(f"...{...}...")
+    message: |
+      Обнаружена SQL-инъекция
+    languages: [python]
+    severity: ERROR
+
+  - id: python-sql-injection-concat
+    pattern: |
+      $CURSOR.execute($QUERY + $VAR)
+    message: |
+      Обнаружена SQL-инъекция
+    languages: [python]
+    severity: ERROR
+
+  - id: python-sql-injection-format
+    pattern: |
+      $CURSOR.execute($QUERY.format(...))
+    message: |
+      Обнаружена SQL-инъекция
+    languages: [python]
+    severity: ERROR
