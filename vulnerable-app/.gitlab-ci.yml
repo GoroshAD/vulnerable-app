@@ -1,0 +1,18 @@
+stages:
+  - static_analysis
+  - dynamic_analysis
+
+semgrep:
+  stage: static_analysis
+  image: returntocorp/semgrep:latest
+  script:
+    - semgrep --config sql-injection-rule.yaml ./ --error
+  allow_failure: false
+
+zap-scan:
+  stage: dynamic_analysis
+  image: zaproxy/zap-stable
+  script:
+    - mkdir -p /zap/wrk && cd /zap/wrk
+    - zap-baseline.py -t http://vulnerable-app:5000
+  allow_failure: false
